@@ -4,7 +4,7 @@ from flask_session.__init__ import Session
 import os
 from config import config
 from werkzeug.utils import secure_filename
-import tflite_runtime.interpreter as tflite
+import lite as tflite
 import numpy as np
 from PIL import Image
 
