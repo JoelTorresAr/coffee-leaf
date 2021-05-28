@@ -1,11 +1,9 @@
 from decouple import config as config_decouple
-from flask import Flask, flash, render_template, redirect, make_response, jsonify, request, url_for
+from flask import Flask, flash, render_template, redirect, make_response, jsonify, request
 from flask_session.__init__ import Session
 import os
 from config import config
-import pathlib
 from werkzeug.utils import secure_filename
-import wget
 from tensorflow.python.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from numpy import expand_dims
@@ -15,11 +13,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 enviroment = config['development']
 # Model saved with Keras model.save()
 MODEL_PATH = './models/checkpoint_best_model_accuracy.h5'
-MODEL_URL = 'https://github.com/DARK-art108/Cotton-Leaf-Disease-Prediction/releases/download/v1.0/model_resnet.hdf5'
-# Download model if not present
-while not pathlib.Path(MODEL_PATH).is_file():
-    print(f'Model {MODEL_PATH} not found. Downloading...')
-    wget.download(MODEL_URL)
 
 if config_decouple('PRODUCTION', default=False):
     enviroment = config['production']

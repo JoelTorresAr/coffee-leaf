@@ -10,7 +10,7 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D, Dropou
 # from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D, SeparableConv2D
 from tensorflow.python.keras import backend as K
 from tensorflow import keras, image
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 from os import listdir
 from numpy.testing import assert_allclose
@@ -125,7 +125,7 @@ def new_train():
 
     history = model.fit(imagen_entrenamiento, batch_size=batch_size, epochs=epocas, validation_data=imagen_validacion,
                         callbacks=callbacks)
-    plot_train(history)
+    #plot_train(history)
 
     dir = './modelo'
 
@@ -144,9 +144,9 @@ def continue_train():
     history = new_model.fit(
         imagen_entrenamiento, epochs=epocas, callbacks=callbacks, validation_data=imagen_validacion,
     )
-    plot_train(history)
+    #plot_train(history)
 
-
+'''
 def plot_train(history):
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
@@ -155,7 +155,7 @@ def plot_train(history):
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'val', 'loss'], loc='upper left')
-    plt.show()
+    plt.show()'''
 
 
 def predict(file):
