@@ -4,6 +4,7 @@ from flask_session.__init__ import Session
 import os
 from config import config
 from werkzeug.utils import secure_filename
+#import tensorflow.lite as tflite
 import lite as tflite
 import numpy as np
 from PIL import Image
@@ -33,7 +34,7 @@ def predecir(filename):
                                                  Image.ANTIALIAS)
         x = np.array(i)
         x = np.expand_dims(x, axis=0)
-        f = tflite.Interpreter('lite_model.tflite')
+        f = tflite.python.interpreter('lite_model.tflite')
         f.allocate_tensors()
         '''_, height, width, _ = f.get_input_details()[0]['shape']
         results = classify_image(f, i)'''
