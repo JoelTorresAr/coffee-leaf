@@ -1,0 +1,6 @@
+/venv
+/data/*
+/dataset/*
+/temp/*
+/__pycache__/*
+/flask_session

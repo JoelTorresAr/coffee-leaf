@@ -1,0 +1,4 @@
+--Guardar los paquetes requeridos
+pip freeze > requirements.txt
+--Instalar los paquetes requeridos
+pip install -r requirements.txt
