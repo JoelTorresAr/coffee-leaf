@@ -4,9 +4,9 @@ from flask_session.__init__ import Session
 import os
 from config import config
 from werkzeug.utils import secure_filename
-from tensorflow.python.keras.models import load_model
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from numpy import expand_dims
+import tflite_runtime.interpreter as tflite
+import numpy as np
+from PIL import Image
 
 # ENVIROMENT VAR
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -29,13 +29,22 @@ def create_app(enviroment):
 
 def predecir(filename):
     if os.path.isfile(MODEL_PATH):
-        model = load_model(MODEL_PATH)
-        x = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename), target_size=(64, 64))
-        x = img_to_array(x)
-        x = expand_dims(x, axis=0)
-        arreglo = model.predict(x)
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # delete temporary file
-        return arreglo.tolist()
+        i = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename)).convert('RGB').resize((64, 64),
+                                                 Image.ANTIALIAS)
+        x = np.array(i)
+        x = np.expand_dims(x, axis=0)
+        f = tflite.Interpreter('lite_model.tflite')
+        f.allocate_tensors()
+        '''_, height, width, _ = f.get_input_details()[0]['shape']
+        results = classify_image(f, i)'''
+        ######
+        i = f.get_input_details()[0]
+        o = f.get_output_details()[0]
+        f.set_tensor(i['index'], x)
+        f.invoke()
+        y = f.get_tensor(o['index'])
+        print("TensorFlow Lite:", y[0])
+        return y.tolist()
 
 
 app = create_app(enviroment)
