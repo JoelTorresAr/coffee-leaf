@@ -6,7 +6,7 @@ import os
 from config import config
 import base64
 import werkzeug
-import leaf_engine
+import leaf_engine_lite
 import numpy as np
 
 # ENVIROMENT VAR
