@@ -6,13 +6,22 @@ from tensorflow.python.keras import backend as K
 import tensorflow.lite as lt
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
-MODEL_PATH = './models/keras_model.h5'
+MODEL_PATH  = './models/keras_model.h5'
+LABELS_PATH = './models/labels.txt'
+LABELS_LINE = open(LABELS_PATH, "r")
+LABELS      = [];
+for line in LABELS_LINE:
+  stripped_line = line.strip()
+  LABELS.append(stripped_line)
+
 training_data = './dataset/train'
 validation_data = './dataset/test'
 size = (224, 224)
 batch_size = 32
+K.clear_session()
+
+
 def predecir(file_path):
-    K.clear_session()
     np.set_printoptions(suppress=True)
     model = tensorflow.keras.models.load_model(MODEL_PATH)
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
@@ -24,8 +33,11 @@ def predecir(file_path):
     prediction = model.predict(data)
     prediction[0] = np.rint(prediction[0])
     prediction[0] = np.dot(prediction[0], 100)
+    final_pred = {}
+    for i in range(len(LABELS)):
+        final_pred[LABELS[i]] = prediction[0][i]
     os.remove(file_path)  # delete temporary file
-    return prediction.tolist()
+    return final_pred
 
 
 def train():
