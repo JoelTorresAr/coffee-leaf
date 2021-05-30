@@ -1,4 +1,4 @@
-from decouple import config as config_decouple
+#from decouple import config as config_decouple
 from flask import Flask, flash, render_template, redirect, make_response, jsonify, request, url_for
 import json
 from flask_session.__init__ import Session
@@ -14,8 +14,8 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 enviroment = config['development']
 
-if config_decouple('PRODUCTION', default=False):
-    enviroment = config['production']
+'''if config_decouple('PRODUCTION', default=False):
+    enviroment = config['production']'''
 
 
 def create_app(enviroment):
