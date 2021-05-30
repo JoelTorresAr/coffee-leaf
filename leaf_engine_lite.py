@@ -18,10 +18,10 @@ training_data = './dataset/train'
 validation_data = './dataset/test'
 size = (224, 224)
 batch_size = 32
-K.clear_session()
 
 
 def predecir(file_path):
+    K.clear_session()
     np.set_printoptions(suppress=True)
     model = tensorflow.keras.models.load_model(MODEL_PATH)
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
