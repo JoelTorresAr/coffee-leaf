@@ -25,7 +25,7 @@ def predecir(file_path):
     np.set_printoptions(suppress=True)
     model = tensorflow.keras.models.load_model(MODEL_PATH)
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-    image = Image.open(file_path)
+    image = Image.open(file_path).convert('RGB')
     image = ImageOps.fit(image, size, Image.ANTIALIAS)
     image_array = np.asarray(image)
     normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
