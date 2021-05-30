@@ -80,8 +80,6 @@ def convert_to_lite():
     with open('models/model_unquant.tflite', 'wb') as f:
         f.write(tflite_model)
 
-train()
-
 
 
 
