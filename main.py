@@ -4,16 +4,11 @@ from flask_session.__init__ import Session
 import os
 from config import config
 from werkzeug.utils import secure_filename
-#import tensorflow.lite as tflite
-import lite as tflite
-import numpy as np
-from PIL import Image
+import leaf_engine
 
 # ENVIROMENT VAR
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 enviroment = config['development']
-# Model saved with Keras model.save()
-MODEL_PATH = './models/checkpoint_best_model_accuracy.h5'
 
 if config_decouple('PRODUCTION', default=False):
     enviroment = config['production']
@@ -26,26 +21,6 @@ def create_app(enviroment):
         sess = Session()
         sess.init_app(app)
     return app
-
-
-def predecir(filename):
-    if os.path.isfile(MODEL_PATH):
-        i = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename)).convert('RGB').resize((64, 64),
-                                                 Image.ANTIALIAS)
-        x = np.array(i)
-        x = np.expand_dims(x, axis=0)
-        f = tflite.python.interpreter('lite_model.tflite')
-        f.allocate_tensors()
-        '''_, height, width, _ = f.get_input_details()[0]['shape']
-        results = classify_image(f, i)'''
-        ######
-        i = f.get_input_details()[0]
-        o = f.get_output_details()[0]
-        f.set_tensor(i['index'], x)
-        f.invoke()
-        y = f.get_tensor(o['index'])
-        print("TensorFlow Lite:", y[0])
-        return y.tolist()
 
 
 app = create_app(enviroment)
@@ -73,8 +48,9 @@ def template():
             filename = secure_filename(file.filename)
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
                 os.mkdir(app.config['UPLOAD_FOLDER'])
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            x = predecir(filename)  # imported from process file
+            path_save = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(path_save)
+            x = leaf_engine.predecir(path_save)  # imported from process file
             res = make_response(jsonify(x), 200)
             return res
     return render_template('index.html')

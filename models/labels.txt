@@ -1,0 +1,5 @@
+0 fosforo
+1 magnesio
+2 nitrogeno
+3 potasio
+4 saludable

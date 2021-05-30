@@ -1,6 +1,7 @@
 /venv
 /data/*
-/dataset/*
+/dataset/**/*.jpg
+/dataset/**/*.gnp
 /temp/*
 /__pycache__/*
 /flask_session
