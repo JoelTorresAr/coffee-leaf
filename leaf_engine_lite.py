@@ -9,7 +9,9 @@ from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 MODEL_PATH  = './models/keras_model.h5'
 LABELS_PATH = './models/labels.txt'
 LABELS_LINE = open(LABELS_PATH, "r")
-LABELS      = [];
+LABELS      = []
+K.clear_session()
+
 for line in LABELS_LINE:
   stripped_line = line.strip()
   LABELS.append(stripped_line)
@@ -21,7 +23,6 @@ batch_size = 32
 
 
 def predecir(file_path):
-    K.clear_session()
     np.set_printoptions(suppress=True)
     model = tensorflow.keras.models.load_model(MODEL_PATH)
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
