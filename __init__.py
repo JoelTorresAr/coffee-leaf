@@ -60,7 +60,7 @@ def template():
                 os.mkdir(app.config['UPLOAD_FOLDER'])
             path_save = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path_save)
-            x = leaf_engine.predecir(path_save)  # imported from process file
+            x = leaf_engine_lite.predecir(path_save)  # imported from process file
             res = make_response(json.dumps(x, cls=NumpyFloatValuesEncoder), 200)
             return res
     return render_template('index.html')
@@ -79,7 +79,7 @@ def api_predict():
             fh.close()
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
-        x = leaf_engine.predecir(path_save)  # imported from process file
+        x = leaf_engine_lite.predecir(path_save)  # imported from process file
         res = make_response(json.dumps(x, cls=NumpyFloatValuesEncoder), 200)
         return res
 
