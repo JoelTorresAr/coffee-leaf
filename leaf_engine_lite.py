@@ -32,7 +32,7 @@ def predecir(file_path):
     normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
     data[0] = normalized_image_array
     prediction = model.predict(data)
-    #prediction[0] = np.rint(prediction[0])
+    prediction[0] = np.round(prediction[0], 6)
     prediction[0] = np.dot(prediction[0], 100)
     final_pred = {}
     for i in range(len(LABELS)):
