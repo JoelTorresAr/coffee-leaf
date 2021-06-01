@@ -68,11 +68,13 @@ def template():
 # GET METHOD
 
 
-@app.route("/api_predict", methods=['POST'])
+@app.route("/api_predict", methods=['GET', 'POST'])
 def api_predict():
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.mkdir(app.config['UPLOAD_FOLDER'])
     path_save = os.path.join(app.config['UPLOAD_FOLDER'], "imageToSave.png")
+    if os.path.isfile(path_save):
+        os.remove(path_save)
     if request.method == 'POST':
         image_64_encode = request.json['image_base64']
         image_64_decode = image_64_encode.replace("data:image/jpeg;base64,", "")
@@ -86,6 +88,7 @@ def api_predict():
         return res
 
     return make_response(jsonify({"error": "Utiliza metodo POST; application/jso;"}), 400)
+
 
 
 def list_routes():
