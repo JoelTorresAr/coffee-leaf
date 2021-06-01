@@ -6,8 +6,9 @@ from tensorflow.python.keras import backend as K
 import tensorflow.lite as lt
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
-MODEL_PATH  = './models/keras_model.h5'
-LABELS_PATH = './models/labels.txt'
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH  = os.path.join(APP_ROOT, 'models/keras_model.h5')
+LABELS_PATH = os.path.join(APP_ROOT, 'models/labels.txt')
 LABELS_LINE = open(LABELS_PATH, "r")
 LABELS      = []
 K.clear_session()
@@ -16,8 +17,8 @@ for line in LABELS_LINE:
   stripped_line = line.strip()
   LABELS.append(stripped_line)
 
-training_data = './dataset/train'
-validation_data = './dataset/test'
+training_data = os.path.join(APP_ROOT, 'dataset/train')
+validation_data = os.path.join(APP_ROOT, 'dataset/test')
 size = (224, 224)
 batch_size = 32
 
