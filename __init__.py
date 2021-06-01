@@ -70,6 +70,8 @@ def template():
 
 @app.route("/api_predict", methods=['POST'])
 def api_predict():
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.mkdir(app.config['UPLOAD_FOLDER'])
     path_save = os.path.join(app.config['UPLOAD_FOLDER'], "imageToSave.png")
     if request.method == 'POST':
         image_64_encode = request.json['image_base64']
