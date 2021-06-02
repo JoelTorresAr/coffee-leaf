@@ -1,4 +1,5 @@
 #from decouple import config as config_decouple
+from flask_cors import CORS
 from flask import Flask, flash, render_template, redirect, make_response, jsonify, request, url_for
 import json
 from flask_session.__init__ import Session
@@ -24,6 +25,7 @@ def create_app(enviroment):
     with app.app_context():
         sess = Session()
         sess.init_app(app)
+        CORS(app)
     return app
 
 

@@ -8,6 +8,7 @@ chardet==4.0.0
 click==8.0.1
 colorama==0.4.4
 Flask==2.0.0
+Flask-Cors==3.0.10
 Flask-Session==0.3.2
 flatbuffers==1.12
 gast==0.4.0
