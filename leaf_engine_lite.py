@@ -72,6 +72,7 @@ def train():
     #cargamos el modelo del cual haremos transfer learning, en este caso el modelo de
     # clasificación de iris la cual usa dos capas ocultas
     model = tensorflow.keras.models.load_model(MODEL_PATH)
+    model.summary()
     #congelamos las capas que ya han sido entrenadas para aprender a reconocer formas y patrones
     for layer in model.layers:
         layer.trainable = False
