@@ -56,15 +56,7 @@ def predecir(file_path):
     final_pred = {}
     prediction_match = False
     for i in range(len(LABELS)):
-        if UMBRAL < prediction[0][i]:
-            prediction_match = True
-            final_pred[LABELS[i]] = 100 #prediction[0][i]
-        else:
-            final_pred[LABELS[i]] = 0
-    if prediction_match:
-        final_pred['desconocido'] = 0
-    else:
-        final_pred['desconocido'] = 100
+        final_pred[LABELS[i]] = prediction[0][i]
 
     os.remove(file_path)  # delete temporary file
     return final_pred
