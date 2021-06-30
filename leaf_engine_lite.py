@@ -13,6 +13,7 @@ MODEL_PATH  = os.path.join(APP_ROOT, 'models/keras_model.h5')
 #Los nombres de las clases clasificadas
 LABELS_PATH = os.path.join(APP_ROOT, 'models/labels.txt')
 LABELS_LINE = open(LABELS_PATH, "r")
+UMBRAL = 70
 LABELS      = []
 #Clear sesion nos permite iniciar con la memoria limpia
 K.clear_session()
@@ -53,8 +54,18 @@ def predecir(file_path):
     prediction[0] = np.dot(prediction[0], 100)
     #creamos un diccionario en el cual guardaremos asignaremos a cada clase su porcentaje de similitud
     final_pred = {}
+    prediction_match = False
     for i in range(len(LABELS)):
-        final_pred[LABELS[i]] = prediction[0][i]
+        if UMBRAL < prediction[0][i]:
+            prediction_match = True
+            final_pred[LABELS[i]] = 100 #prediction[0][i]
+        else:
+            final_pred[LABELS[i]] = 0
+    if prediction_match:
+        final_pred['desconocido'] = 0
+    else:
+        final_pred['desconocido'] = 100
+
     os.remove(file_path)  # delete temporary file
     return final_pred
 
@@ -127,9 +138,5 @@ def convert_to_lite():
     tflite_model = converter.convert()
     with open('models/model_unquant.tflite', 'wb') as f:
         f.write(tflite_model)
-
-
-
-train()
 
 
